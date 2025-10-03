@@ -1,0 +1,46 @@
+===============================
+Power BI RFM Analysis - DAX Formulas
+===============================
+
+1. Recency Score (R_Score)
+--------------------------
+R_Score =
+VAR MaxRecency = MAX(CustomerRFM[Recency])
+VAR MinRecency = MIN(CustomerRFM[Recency])
+RETURN
+ROUNDUP(5 - (CustomerRFM[Recency] - MinRecency) / (MaxRecency - MinRecency) * 4, 0)
+
+2. Frequency Score (F_Score)
+----------------------------
+F_Score =
+VAR MaxFreq = MAX(CustomerRFM[Frequency])
+VAR MinFreq = MIN(CustomerRFM[Frequency])
+RETURN
+ROUNDUP((CustomerRFM[Frequency] - MinFreq) / (MaxFreq - MinFreq) * 4 + 1, 0)
+
+3. Monetary Score (M_Score)
+---------------------------
+M_Score =
+VAR MaxMon = MAX(CustomerRFM[Monetary])
+VAR MinMon = MIN(CustomerRFM[Monetary])
+RETURN
+ROUNDUP((CustomerRFM[Monetary] - MinMon) / (MaxMon - MinMon) * 4 + 1, 0)
+
+4. Customer Segmentation Logic
+------------------------------
+Segment =
+SWITCH(
+    TRUE(),
+    CustomerRFM[R_Score] >= 4 && CustomerRFM[F_Score] >= 4 && CustomerRFM[M_Score] >= 4, "Champion",
+    CustomerRFM[R_Score] >= 3 && CustomerRFM[F_Score] >= 3 && CustomerRFM[M_Score] >= 3, "Loyal",
+    CustomerRFM[R_Score] <= 2 && CustomerRFM[F_Score] <= 2, "At Risk",
+    CustomerRFM[R_Score] <= 1, "Lost",
+    "Others"
+)
+
+5. Notes / Additional Measures
+-------------------------------
+- Add any additional DAX formulas here.
+- Describe the purpose of each measure for reference.
+
+===============================
