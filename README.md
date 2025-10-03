@@ -1,4 +1,4 @@
-SegmenTrack
+## Customer Segmentation and Sales Insight - RFM Analysis
 
 ## Description
 This project analyzes sales data to perform RFM (Recency, Frequency, Monetary) analysis and segments customers into At Risk and Lost categories.
